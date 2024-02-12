@@ -1,5 +1,6 @@
 package com.harun.springkafkasms;
 
+import com.harun.springkafkasms.bean.SmsRequest;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -16,8 +17,18 @@ public class SpringKafkaSmsApplication {
     @Bean
     CommandLineRunner commandLineRunner(KafkaTemplate<String, String> kafkaTemplate) {
         return args -> {
-            for (int i = 0; i < 10000; i++)
-                kafkaTemplate.send("sendSMS", "Hello Kafka! - " + i);
+                kafkaTemplate.send("sendSMS", "Hello Kafka! - A Sample Text");
+        };
+    }
+
+    @Bean
+    CommandLineRunner commandLineSmsRequestRunner(KafkaTemplate<String, SmsRequest> smsKafkaTemplate) {
+        return args -> {
+            smsKafkaTemplate.send("sendSMSOtp", SmsRequest.builder()
+                    .recipient("01714345644")
+                    .sender("SmsGenie")
+                    .text("Sending the Genie with a Greeting!")
+                    .build());
         };
     }
 
