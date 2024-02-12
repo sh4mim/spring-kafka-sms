@@ -10,7 +10,6 @@ public class KafkaTopicConfig {
 
     @Bean
     public NewTopic smsTopic() {
-        //return new NewTopic("baeldung", 1, (short) 1);
         return TopicBuilder.name("sendSMS").replicas(1).partitions(1)
                 .build();
     }
